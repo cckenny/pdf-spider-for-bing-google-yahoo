@@ -51,7 +51,7 @@ class bingPdf():
         print("search keyword : ", search_keyword)
         print("expected time(getting links) : ", pages * 4, "seconds~", pages * 5, "seconds")
         print("----getting links----")
-        for page in range(0, pages * 10 , 10):
+        for page in range(0, pages * 14 , 14):
             while True:
                 params = {}
                 word = search_keyword + ' filetype:' + filetype
