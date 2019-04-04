@@ -109,6 +109,4 @@ class bingPdf():
   
 if __name__=="__main__":
     pdfcrawler = bingPdf(['lstm'], pages=3, filetype='pdf')#关键字 页码 文件类型
-    pdfcrawler.download_search_data()     #download pdfs from list -> ["svm"]
-    #pdfcrawler.convert_pdfs(to_json=True)     #convert all pdfs to txt, json file could be used as DataFrame
-    #pdfcrawler.concate_all_txt()  #concate txt files each by search keyword -> to analyze whole txt data
+    pdfcrawler.download_search_data() 
