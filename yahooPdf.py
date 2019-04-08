@@ -40,27 +40,32 @@ class bingPdf():
             return False
         return True
 
+
     def get_link(self, search_keyword, filetype, pages, show_links=False):
         linklist = []
         titlelist = []
         print("search keyword : ", search_keyword)
         print("expected time(getting links) : ", pages * 4, "seconds~", pages * 5, "seconds")
         print("----getting links----")
-        for page in range(0, pages * 14 , 14):
+        for page in range(0, pages * 10 , 10):
             while True:
                 params = {}
                 word = search_keyword + ' filetype:' + filetype
                 print(word)
                 word = word.encode(encoding='utf-8', errors='strict')
-                params['q'] = word
-                params['qs'] = 'ds'
-                params['first'] = str(11 + page)
-                params['FORM'] = 'PERE' + str(1 + page / 14)
+                #print(word)
+                params['p'] = word
+                params['fr'] = 'sfp'
+                params['fr2'] = 'sb-top-zh.search'
+                params['b'] = str(1 + page)
+                params['pz'] = '10'
+                params['bct'] =  '0'
+                params['xargs'] = '0'
 
                 headers = {
                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit /537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36"}
-                
-                html = requests.get("https://www.bing.com/search", params=params, headers=headers)
+
+                html = requests.get("https://hk.search.yahoo.com/search;", params=params, headers=headers)
                 print(html.status_code)
                 if html.status_code != 200:
                     continue
@@ -68,8 +73,8 @@ class bingPdf():
             soup = BeautifulSoup(html.text, 'lxml')
             # soup = BeautifulSoup(htmlpage.text, 'lxml')
 
-            for result_table in soup.findAll("h2"):
-                dlurl = unquote(str(re.findall(r"href=\"([^\"]*)\"", str(result_table)))[2:-2])
+            for result_table in soup.findAll("h3"):
+                dlurl = unquote(str(re.findall(r"RU=(.+?)/RK=", str(result_table)))[2:-2])
                 if dlurl != None:
                     if self.is_downloadable(dlurl):
                         if show_links == True:
@@ -97,5 +102,5 @@ class bingPdf():
 
   
 if __name__=="__main__":
-    pdfcrawler = bingPdf(['test'], pages=30, filetype='pdf')#关键字 页码 文件类型
+    pdfcrawler = bingPdf(['biology'], pages=30, filetype='pdf')#关键字 页码 文件类型
     pdfcrawler.download_search_data()   
